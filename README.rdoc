@@ -13,7 +13,7 @@ Add tasks to your application's Rakefile:
   require 'muck_blogs/tasks'
   
 Installing the gem will also install dependencies.  Specifically Muck Blogs requires Muck Contents.  Be sure
-to properly configure your application for Muck Contents - http://github.com/jbasdf/muck_contents/tree/master
+to properly configure your application for Muck Contents - http://github.com/tatemae/muck_contents/tree/master
 == Usage
 
 === Configuration

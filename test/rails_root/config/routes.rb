@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  
+  map.home '', :controller => 'default', :action => 'index'
+  map.root :controller => 'default', :action => 'index'
+  
   map.root :controller => 'default', :action => 'index'
   map.resources :users do |users|
     users.resource :blog, :controller => 'muck/blogs' do |blog|

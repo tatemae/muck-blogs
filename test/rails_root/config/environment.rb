@@ -1,4 +1,4 @@
-RAILS_GEM_VERSION = '2.3.3' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 
 require File.join(File.dirname(__FILE__), 'boot')
 
@@ -25,7 +25,9 @@ Rails::Initializer.run do |config|
   config.gem "babelphish"
   config.gem 'muck-engine', :lib => 'muck_engine'
   config.gem 'muck-users', :lib => 'muck_users'
+  config.gem 'muck-solr', :lib => 'acts_as_solr'
   config.gem 'muck-activities', :lib => 'muck_activities'
   config.gem 'muck-contents', :lib => 'muck_contents'
+  config.gem 'muck-comments', :lib => 'muck_comments'
   config.plugin_locators << TestGemLocator
 end

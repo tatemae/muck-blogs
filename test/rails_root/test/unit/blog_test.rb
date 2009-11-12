@@ -8,6 +8,8 @@ class BlogTest < ActiveSupport::TestCase
       @blog = @user.blog
     end
     
+    subject { @blog }
+     
     should_validate_presence_of :title
     should_belong_to :blogable
     
