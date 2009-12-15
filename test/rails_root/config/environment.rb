@@ -22,6 +22,9 @@ Rails::Initializer.run do |config|
   config.gem "acts-as-taggable-on"
   config.gem "awesome_nested_set"
   config.gem "friendly_id"
+  config.gem "geokit"
+  config.gem "sanitize"
+  config.gem 'tiny_mce'
   config.gem "babelphish"
   config.gem 'muck-engine', :lib => 'muck_engine'
   config.gem 'muck-users', :lib => 'muck_users'
