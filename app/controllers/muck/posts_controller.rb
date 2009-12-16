@@ -8,6 +8,7 @@ class Muck::PostsController < Muck::ContentsController
     respond_to do |format|
       format.html { render :template => 'posts/index', :layout => 'popup' }
       format.pjs { render :template => 'posts/index', :layout => false }
+      format.rss { render :template => 'posts/index' }
     end
   end
 
