@@ -9,5 +9,6 @@ ActionController::Routing::Routes.draw do |map|
       blog.resources :posts, :controller => 'muck/posts'
     end
   end
+  
 end
 

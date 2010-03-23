@@ -20,8 +20,10 @@ class Muck::PostsController < Muck::ContentsController
   
   def new
     @content = @blog.posts.new()
-    @new_content_message = t('muck.blogs.add_post')
-    super
+    respond_to do |format|
+      format.html { render :template => 'posts/new' }
+      format.pjs { render :template => 'posts/new', :layout => 'popup'}
+    end
   end
   
   protected

@@ -14,6 +14,7 @@ Add tasks to your application's Rakefile:
   
 Installing the gem will also install dependencies.  Specifically Muck Blogs requires Muck Contents.  Be sure
 to properly configure your application for Muck Contents - http://github.com/tatemae/muck_contents/tree/master
+
 == Usage
 
 === Configuration
@@ -36,16 +37,63 @@ Muck Blogs requires Muck Contents.  Be sure to setup Muck Content then add acts_
     # acts_as_activity_source # Include this if you wish to have entries added to activity feeds upon each new post
   end
 
-=== Attach blogs to a model:
-For a given model add 'has_muck_blog'
-  class User < ActiveRecord::Base
-    has_muck_blog
+=== Blog Controller
+You'll likely want to override some functionality in the blogs controller.  Add a controller and inherit from Muck::BlogsController 
+
+  # Route would be:
+  # map.resources :blogs
+  # map.resources :users :has_many => [:blogs]
+  class BlogsController < Muck::BlogsController
+
   end
-For each model that 'has_muck_blog' you will need to setup routing.  For a user model this would be:
+
+OR 
+
+  # Route looks like this:
+  # map.resources :users do |users|
+  #   users.resource :blog
+  #     blogs.resources :posts
+  #   end
+  # end
+  class User::BlogsController < Muck::BlogsController
+
+  end
+
+=== Posts Controller
+Add a posts controller:
+
+  # Route would be:
+  # map.resources :posts
+  # map.resources :users :has_many => [:blogs]
+  class PostsController < Muck::ContentsController
+
+  end
+
+  # Route looks like this:
+  # map.resources :users do |users|
+  #   users.resource :posts
+  #   users.resource :blog do |blogs|
+  #     blogs.resources :posts
+  #   end
+  # end
+  class Users::PostsController < Muck::ContentsController
+
+  end
+
+=== Default Routing
+If you chose to not override either controller you can setup routes like this to attach a blog to your models:
+
   map.resources :users do |users|
     users.resource :blog, :controller => 'muck/blogs' do |blogs|
       blogs.resources :posts, :controller => 'muck/posts'
     end
   end
+
+=== Attach blogs to a model:
+For a given model add 'has_muck_blog'
+  class User < ActiveRecord::Base
+    has_muck_blog
+  end
   
-Copyright (c) 2009 Muck Your App, released under the MIT license
+  users.resource :blog, :controller => 'muck/blogs' do |blogs|
+Copyright (c) 2009-2010 Tatemae.com released under the MIT license
