@@ -35,11 +35,13 @@ class Muck::PostsController < Muck::ContentsController
       else
         @blog = @parent # parent found the blog
       end
-      @blog ||= Blog.find(params[:id], :scope => MuckContents::GLOBAL_SCOPE)
+      @blog ||= Blog.find(params[:id], :scope => MuckContents::GLOBAL_SCOPE) rescue nil
+      @blog ||= Blog.first
     end
     
     def has_permission_to_add_content(user, parent, content)
       return true if parent.can_add_content?(user)
       super
     end
+    
 end
