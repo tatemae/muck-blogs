@@ -67,10 +67,21 @@ module ActiveRecord
           blogable.can_edit?(user)
         end
 
+        # Set the user who is currently editing the content.  This is used
+        # to determine permissions
+        def current_editor=(editor)
+          @current_editor = editor
+        end
+        
+        # Get the user that is currently editing the content
+        def current_editor
+          @current_editor
+        end
+        
         # Sanitize content before saving.  This prevent XSS attacks and other malicious html.
         def sanitize_attributes
           if self.sanitize_level
-            self.description = Sanitize.clean(self.description, self.sanitize_level)
+            self.description = Sanitize.clean(self.description, self.sanitize_level) unless self.description.nil?
             self.title = Sanitize.clean(self.title, self.sanitize_level)
           end
         end
