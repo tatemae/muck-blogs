@@ -56,7 +56,10 @@ default: &DEFAULT
   # Content options
   content_git_repository: "#{File.join(RAILS_ROOT, 'repo', RAILS_ENV)}"
   enable_auto_translations: true
-  content_enable_solr: true
+  content_enable_solr: false
+  content_css: ['/stylesheets/reset.css', '/stylesheets/styles.css']
+
+  
   
   # Blogs
   enable_post_activities: true

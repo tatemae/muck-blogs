@@ -42,7 +42,8 @@ module ActiveRecord
 
       # class methods
       module SingletonMethods
-        def blogable_to_scope(obj)
+        def blogable_to_scope(obj = nil)
+          return  MuckContents::GLOBAL_SCOPE if obj.blank?
           File.join('/', obj.class.to_s.tableize, obj.to_param)
         end
       end

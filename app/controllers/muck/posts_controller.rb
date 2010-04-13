@@ -1,8 +1,6 @@
 class Muck::PostsController < Muck::ContentsController
   unloadable
 
-  before_filter :setup_blog
-  
   def index
     @posts = @blog.posts.by_newest
     respond_to do |format|
@@ -27,15 +25,15 @@ class Muck::PostsController < Muck::ContentsController
   end
   
   protected
-    def setup_blog
-      @parent = get_parent
-      if @parent && !@parent.is_a?(Blog)
-        @blog = @parent.blog
-        @blog ||= Blog.find(params[:id], :scope => Blog.blogable_to_scope(@parent))
+
+    def setup_parent
+      @parent = get_parent(:ignore => ['blog']) rescue nil
+      if @parent && @parent.defined?(blog)
+        @blog = @parent.blog # Found a blog that belongs to a parent object
       else
-        @blog = @parent # parent found the blog
+        # No blog was found. Try looking for a root blog in the url
+        @blog = get_parent(:scope => Blog.blogable_to_scope)
       end
-      @blog ||= Blog.find(params[:id], :scope => MuckContents::GLOBAL_SCOPE) rescue nil
       @blog ||= Blog.first
     end
     
