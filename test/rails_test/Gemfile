@@ -13,7 +13,8 @@ gem 'muck-engine', :require => 'muck_engine', :path => "~/projects/muck-engine"
 gem 'muck-users', :require => 'muck_users', :path => "~/projects/muck-users"
 gem 'muck-profiles', :require => 'muck_profiles', :path => "~/projects/muck-profiles"
 gem 'muck-activities', :path => "~/projects/muck-activities"
-gem 'muck-comments', :require => 'muck_comments', :path => '../../'  
+gem 'muck-comments', :path => "~/projects/muck-comments"
+gem 'muck-blogs', :path => '../../'  
   
 if RUBY_VERSION < '1.9'
   gem "ruby-debug"

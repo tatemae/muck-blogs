@@ -1,5 +1,7 @@
 = Muck Blogs
 
+Note that this project is not complete. If you would like to use it please consider forking the code and completing functionality.
+
 Add a blog to any object.
 
 == Setup
