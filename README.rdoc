@@ -3,14 +3,8 @@
 Add a blog to any object.
 
 == Setup
-Install the gem:
-  sudo gem install muck-blogs
-
-Then add it to your environment.rb:
-  config.gem "muck-blogs", :lib => 'muck_blogs'
-  
-Add tasks to your application's Rakefile:
-  require 'muck_blogs/tasks'
+Add the gem to your Gemfile:
+  gem "muck-blogs"
   
 Installing the gem will also install dependencies.  Specifically Muck Blogs requires Muck Contents.  Be sure
 to properly configure your application for Muck Contents - http://github.com/tatemae/muck_contents/tree/master
@@ -18,31 +12,48 @@ to properly configure your application for Muck Contents - http://github.com/tat
 == Usage
 
 === Configuration
-Add 'enable_post_activities' to global_config.yml to determine whether or not an activity will be added
+Add 'enable_post_activities' to an initializer to determine whether or not an activity will be added
 after a user contributes a post.  This requires that the application be configured to use Muck Activities.
-Note that to enable this functionality the content model will need to have 
-  enable_post_activities: true
+
+  MuckBlogs.configure do |config|
+    enable_post_activities = true
+  end
 
 === Blog model
 Create a model called blog in your project and add the following:
   class Blog < ActiveRecord::Base
-    acts_as_muck_blog
+    include MuckBlogs::Models::MuckBlog
   end
+  
 This let's you override or add other methods to the blog model that you see fit.
 
 === Content model
-Muck Blogs requires Muck Contents.  Be sure to setup Muck Content then add acts_as_muck_post to your Content model:
+Muck Blogs requires Muck Contents.  Be sure to setup Muck Content then add include MuckBlogs::Models::MuckPost to your Content model:
   class Content < ActiveRecord::Base
-    acts_as_muck_post
-    # acts_as_activity_source # Include this if you wish to have entries added to activity feeds upon each new post
+    include MuckBlogs::Models::MuckPost
+    # include MuckActivities::Models::MuckActivitySource # Include this if you wish to have entries added to activity feeds upon each new post
   end
+
+=== User model
+Muck Blogs uses Muck Contents which requires that the user model have a method called 'can_add_root_content?'. 
+Add the following method to your user model and modify it according to your specific needs:
+  
+  def can_add_root_content?
+    admin?
+  end
+
+This method determines who can add content to any url on your website.  For example, if you type in
+http://www.example.com/a/test/page and that page does not exist, muck contents will automatically create
+a page for you at that location if the logged in user has a method can_add_root_content? that returns true.
 
 === Blog Controller
 You'll likely want to override some functionality in the blogs controller.  Add a controller and inherit from Muck::BlogsController 
 
   # Route would be:
-  # map.resources :blogs
-  # map.resources :users :has_many => [:blogs]
+  # resources :blogs
+  # resources :users do
+  #   resources :blogs
+  # end
   class BlogsController < Muck::BlogsController
 
   end
@@ -50,9 +61,9 @@ You'll likely want to override some functionality in the blogs controller.  Add 
 OR 
 
   # Route looks like this:
-  # map.resources :users do |users|
-  #   users.resource :blog
-  #     blogs.resources :posts
+  # resources :users do
+  #   resource :blog do
+  #     resources :posts
   #   end
   # end
   class User::BlogsController < Muck::BlogsController
@@ -63,17 +74,17 @@ OR
 Add a posts controller:
 
   # Route would be:
-  # map.resources :posts
-  # map.resources :users :has_many => [:blogs]
+  # resources :posts
+  # resources :users :has_many => [:blogs]
   class PostsController < Muck::ContentsController
 
   end
 
   # Route looks like this:
-  # map.resources :users do |users|
-  #   users.resource :posts
-  #   users.resource :blog do |blogs|
-  #     blogs.resources :posts
+  # resources :users do
+  #   resource :posts
+  #   resource :blog do
+  #     resources :posts
   #   end
   # end
   class Users::PostsController < Muck::ContentsController
@@ -83,16 +94,16 @@ Add a posts controller:
 === Default Routing
 If you chose to not override either controller you can setup routes like this to attach a blog to your models:
 
-  map.resources :users do |users|
-    users.resource :blog, :controller => 'muck/blogs' do |blogs|
-      blogs.resources :posts, :controller => 'muck/posts'
+  resources :users do
+    resource :blog, :controller => 'muck/blogs'
+      resources :posts, :controller => 'muck/posts'
     end
   end
 
 === Attach blogs to a model:
-For a given model add 'has_muck_blog'
+For a given model add 'include MuckBlogs::Models::MuckBloggable'
   class User < ActiveRecord::Base
-    has_muck_blog
+    include MuckBlogs::Models::MuckBloggable
   end
   
   users.resource :blog, :controller => 'muck/blogs' do |blogs|

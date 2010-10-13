@@ -30,6 +30,13 @@ class Muck::BlogsController < ApplicationController
     end
   end
   
+  def edit
+    @blog = Blog.find(params[:id])
+    respond_to do |format|
+      format.html { render :template => 'blogs/edit' }
+    end
+  end
+  
   protected
     def setup_parent
       @parent = get_parent

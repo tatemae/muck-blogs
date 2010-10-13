@@ -1,6 +1,9 @@
 class Muck::PostsController < Muck::ContentsController
   unloadable
 
+  skip_before_filter :setup_parent
+  before_filter :setup_blog
+  
   def index
     @posts = @blog.posts.by_newest
     respond_to do |format|
@@ -26,7 +29,7 @@ class Muck::PostsController < Muck::ContentsController
   
   protected
 
-    def setup_parent
+    def setup_blog
       @parent = get_parent(:ignore => ['blog']) rescue nil
       if @parent && @parent.defined?(blog)
         @blog = @parent.blog # Found a blog that belongs to a parent object
@@ -35,6 +38,7 @@ class Muck::PostsController < Muck::ContentsController
         @blog = get_parent(:scope => Blog.blogable_to_scope)
       end
       @blog ||= Blog.first
+      @parent ||= @blog
     end
     
     def has_permission_to_add_content(user, parent, content)

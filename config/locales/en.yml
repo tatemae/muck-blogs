@@ -1,0 +1,9 @@
+--- 
+en: 
+  muck: 
+    blogs: 
+      previous: "&laquo; Previous"
+      add_post: Add Post
+      blog_title: Blog for %{title}
+      next: Next &raquo;
+      add_post_link: Add Post

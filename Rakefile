@@ -8,8 +8,8 @@ task :default => :test
 desc 'Test muck-blogs.'
 Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'
-  t.libs << 'test/rails_root/test'
-  t.pattern = 'test/rails_root/test/**/*_test.rb'
+  t.libs << 'test/rails_test/test'
+  t.pattern = 'test/rails_test/test/**/*_test.rb'
   t.verbose = true
 end
 
@@ -17,8 +17,8 @@ begin
   require 'rcov/rcovtask'
   Rcov::RcovTask.new do |t|
     #t.libs << 'lib'
-    t.libs << 'test/rails_root/lib'
-    t.pattern = 'test/rails_root/test/**/*_test.rb'
+    t.libs << 'test/rails_test/lib'
+    t.pattern = 'test/rails_test/test/**/*_test.rb'
     t.verbose = true
     t.output_dir = 'coverage'
     t.rcov_opts << '--exclude "gems/*"'
@@ -40,7 +40,7 @@ end
 
 desc 'Translate this gem'
 task :translate do
-  file = File.join(File.dirname(__FILE__), 'locales', 'en.yml')
+  file = File.join(File.dirname(__FILE__), 'config', 'locales', 'en.yml')
   system("babelphish -o -y #{file}")
 end
 
@@ -50,7 +50,7 @@ begin
     gemspec.name = "muck-blogs"
     gemspec.summary = "The blog engine for the muck system"
     gemspec.email = "justin@tatemae.com"
-    gemspec.homepage = "http://github.com/tatemae/muck_blogs"
+    gemspec.homepage = "http://github.com/tatemae/muck-blogs"
     gemspec.description = "The blog engine for the muck system."
     gemspec.authors = ["Justin Ball", "Joel Duffin"]
     gemspec.rubyforge_project = 'muck-blogs'

@@ -1,3 +1,4 @@
 <h1><%= link_to blog.title, blog_path(blog) %></h1>
 <p><%= blog.description %></p>
 <p><%= link_to 'Add Post', new_blog_post_path(blog) %></p>
+<p><%= link_to 'Edit Blog', edit_blog_path(blog.id) %></p>
