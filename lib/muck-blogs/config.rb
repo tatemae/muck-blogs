@@ -14,7 +14,7 @@ module MuckBlogs
 
   class Configuration
     
-    attr_accessor :sanitize_attributes        # This enables or disables acts as solr for profiles.
+    attr_accessor :sanitize_attributes        # This enables or disables santize for posts.
     attr_accessor :enable_post_activities     # Determine whether or not an activity will be added after a user contributes a post.  
                                               # This requires that the application be configured to use Muck Activities.
                                               # Note that to enable this functionality the content model will need to have.

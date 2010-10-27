@@ -13,6 +13,6 @@ module MuckBlogs
         include MuckBlogsHelper
       end
     end
-    
+     
   end
 end
