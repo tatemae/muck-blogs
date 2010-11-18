@@ -8,8 +8,8 @@ task :default => :test
 desc 'Test muck-blogs.'
 Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'
-  t.libs << 'test/rails_test/test'
-  t.pattern = 'test/rails_test/test/**/*_test.rb'
+  t.libs << 'test/test'
+  t.pattern = 'test/test/**/*_spec.rb'
   t.verbose = true
 end
 
@@ -17,8 +17,8 @@ begin
   require 'rcov/rcovtask'
   Rcov::RcovTask.new do |t|
     #t.libs << 'lib'
-    t.libs << 'test/rails_test/lib'
-    t.pattern = 'test/rails_test/test/**/*_test.rb'
+    t.libs << 'test/lib'
+    t.pattern = 'test/test/**/*_spec.rb'
     t.verbose = true
     t.output_dir = 'coverage'
     t.rcov_opts << '--exclude "gems/*"'
@@ -46,17 +46,19 @@ end
 
 begin
   require 'jeweler'
-  Jeweler::Tasks.new do |gemspec|
-    gemspec.name = "muck-blogs"
-    gemspec.summary = "The blog engine for the muck system"
-    gemspec.email = "justin@tatemae.com"
-    gemspec.homepage = "http://github.com/tatemae/muck-blogs"
-    gemspec.description = "The blog engine for the muck system."
-    gemspec.authors = ["Justin Ball", "Joel Duffin"]
-    gemspec.rubyforge_project = 'muck-blogs'
-    gemspec.add_dependency "muck-engine"
-    gemspec.add_dependency "muck-users"
-    gemspec.add_dependency "muck-contents"
+  Jeweler::Tasks.new do |gem|
+    gem.name = "muck-blogs"
+    gem.summary = "The blog engine for the muck system"
+    gem.email = "justin@tatemae.com"
+    gem.homepage = "http://github.com/tatemae/muck-blogs"
+    gem.description = "The blog engine for the muck system."
+    gem.authors = ["Justin Ball", "Joel Duffin"]
+    
+    gem.add_dependency "muck-engine"
+    gem.add_dependency "muck-users"
+    gem.add_dependency "muck-contents"
+    gem.files.exclude 'test/**'
+    gem.test_files.exclude 'test/**' # exclude test directory
   end
   Jeweler::GemcutterTasks.new
   Jeweler::RubyforgeTasks.new do |rubyforge|
